@@ -1,0 +1,26 @@
+#Directories.
+OBJDIR := obj
+SOURCE := Source
+IDIR := Include
+#Compiler to use.
+CC=g++
+#Options to pass to the compiler.
+CFLAGS=-Wall -I$(IDIR)
+
+_DEPS = alphanum.h alphanum_old.h FileManip.h mergesort.h quicksort.h
+DEPS = $(pathsubst %, $(IDIR)/%,$(_DEPS))
+_OBJ = alphanum.o alphanum_old.o FileManip.o mergesort.o quicksort.o
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+$(ODIR)/%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+all: change_name
+
+change_name: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+.PHONY: clean
+
+clean:
+	rm -f $(ODIR)/*.o
